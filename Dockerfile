@@ -1,8 +1,11 @@
-# 1. 用Java 8作为基础镜像（和你的项目版本匹配）
-FROM openjdk:8-jdk-alpine
+# 第一阶段：自动构建jar包（用有效的Maven镜像）
+FROM maven:3.8.6-openjdk-8 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# 2. 把打包好的jar包复制到容器里（路径和你的pom.xml一致）
-COPY target/mint-health-backend-0.0.1-SNAPSHOT.jar app.jar
-
-# 3. 启动命令（这里是关键！必须连在一起，不能有空格）
+# 第二阶段：运行jar包（用现在还能用的Java 8镜像）
+FROM eclipse-temurin:8-jre-alpine
+COPY --from=build /app/target/mint-health-backend-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
