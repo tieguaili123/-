@@ -2,9 +2,9 @@ server:
 port: ${PORT:8081}
 spring:
   datasource:
-    url:url: jdbc:mysql://shinkansen.proxy.rlwy.net:18196/mint_health?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: ${DB_URL}
     username: root
-    password: aQgKuFFGNhtFKAORTUETfUMULpqYTerQ
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
