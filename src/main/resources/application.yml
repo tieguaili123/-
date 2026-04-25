@@ -1,11 +1,17 @@
 server:
-port: ${PORT:8081}
+  port: ${PORT:8081}
 spring:
   datasource:
     url: ${DB_URL}
-    username: root
+    username: ${DB_USERNAME}  # 修复1：改成环境变量，适配远程数据库
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  # 修复2：添加跨域配置，解决前端请求被拦截
+  web:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "*"
+      allowed-headers: "*"
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
